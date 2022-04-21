@@ -200,6 +200,8 @@ k delete -f bookinfo.yaml -n istio-app
 
 k delete -f bookinfo-gateway.yaml -n istio-app
 
+k delete -f gateway-kiali.yaml
+
 
 
 /istio-1.13.2/manifests/charts/apps
