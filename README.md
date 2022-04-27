@@ -63,13 +63,18 @@ value: {{ .Values.env.locale | quote }}
 
 
 
-###ingress-gateway 차트(apps) 수정사항
+###ingress-gateway 차트(루트) 수정사항
+Chart.yaml
+
+apiversion: v2로 수정
+
+dependencies 블록 추가
 
 --values.yaml파일
 
-prometheus, kiali 블록 추가
+prometheus, kiali, grafana, jaeger 블록 추가
 
-prometheus pvc 블록 추가
+global: pvc 블록 추가(persistence)
 
 
 
@@ -117,6 +122,10 @@ value: {{ .Values.global.env.timezone | quote }}
 value: {{ .Values.global.env.locale | quote }}
 
 
+###grafana, jaeger 설치 템플릿 추가
+
+grafana 초기 로그인 admin/admin
+
 ###prometheus, kiali 파일
 helm 블록 추가(설치여부, nodeselector 적용여부)
 prometheus pvc 블록 추가
@@ -150,7 +159,7 @@ SCP 레지스트리 확인되면 이미지 태깅
 
 values.yaml 파일들에 hub 경로 SCP 레지스트리로 수정
 
-prometheus, kiali 이미지 경로 수정
+prometheus, kiali, grafana, jaeger 이미지 경로 수정
 
 그 외 제약사항 적용
 
@@ -192,6 +201,9 @@ http://localhost:30080/kiali
 
 kubectl get secret -n istio-system $(kubectl get sa kiali -n istio-system -o "jsonpath={.secrets[0].name}") -o jsonpath={.data.token} | base64 -d
 
+
+prometheus와 grafana는 root url로 접속설정이라 port-forward로 접속해볼수 있음
+예시 k port-forwart grafana 3000:3000 -n istio-system 
 
 
 ****uninstall
