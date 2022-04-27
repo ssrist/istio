@@ -191,16 +191,19 @@ k apply -f bookinfo-gateway.yaml -n istio-app
 
 k apply -f gateway-kiali.yaml
 
+k apply -f gateway-jaeger.yaml
+
 
 
 http://localhost:30080/productpage
 
 
-
 http://localhost:30080/kiali
+
 
 kubectl get secret -n istio-system $(kubectl get sa kiali -n istio-system -o "jsonpath={.secrets[0].name}") -o jsonpath={.data.token} | base64 -d
 
+http://localhost:30080/jaeger
 
 prometheus와 grafana는 root url로 접속설정이라 port-forward로 접속해볼수 있음
 예시 k port-forwart grafana 3000:3000 -n istio-system 
